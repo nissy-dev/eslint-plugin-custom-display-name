@@ -16,7 +16,7 @@ export const ${ruleVarName}: TSESLint.RuleModule<"", []> = {
     docs: {
       description: "",
       recommended: "error",
-      url: "https://github.com/nissy-dev/eslint-plugin-ts-template/blob/main/docs/rules/${ruleId}.md",
+      url: "https://github.com/nissy-dev/eslint-plugin-custom-display-name/blob/main/docs/rules/${ruleId}.md",
     },
     messages: {},
     type: "suggestion",
@@ -40,7 +40,7 @@ describe("Test for ${ruleId}", () => {
 });
 `;
 
-const docTemplate = (ruleId) => `# TODO (ts-template/${ruleId})
+const docTemplate = (ruleId) => `# TODO (custom-display-name/${ruleId})
 
 TODO: Why this rule is useful.
 

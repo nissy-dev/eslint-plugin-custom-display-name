@@ -1,20 +1,19 @@
-# Bans comments (ts-template/example-rule)
+# TODO (custom-display-name/display-name-only-exported-component)
 
-This is example rule.
+TODO: Why this rule is useful.
 
 ## 📖 Rule Details
 
-Bans comments from being used.
+TODO: How this rule will report code.
 
 👍 Examples of **correct** code for this rule:
 
 ```ts
-const a = 1;
+
 ```
 
 👎 Examples of **incorrect** code for this rule:
 
 ```ts
-// comment
-const a = 1;
+
 ```

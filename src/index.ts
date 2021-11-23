@@ -1,14 +1,14 @@
-import { exampleRule } from "./rules/example-rule";
+import { displayNameOnlyExportedComponent } from "./rules/display-name-only-exported-component";
 
 export = {
   rules: {
-    ruleName: exampleRule,
+    ruleName: displayNameOnlyExportedComponent,
   },
   configs: {
     all: {
-      plugins: ["ts-template"],
+      plugins: ["custom-display-name"],
       rules: {
-        "ts-template/example-rule": "error",
+        "custom-display-name/example-rule": "error",
       },
     },
   },
