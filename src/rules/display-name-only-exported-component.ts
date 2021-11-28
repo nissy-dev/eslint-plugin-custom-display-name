@@ -22,12 +22,7 @@ type ComponentNodeInfo = {
 
 const DEFAULT_EXPORTED_CLASS_NAME = "Annonymous-Default-Exported-Class";
 
-const DEFAULT_CHECK_COMPONENT_NAME = [
-  DEFAULT_EXPORTED_CLASS_NAME,
-  "Component",
-  "StyledComponent",
-  "Container",
-];
+const DEFAULT_CHECK_COMPONENT_NAME = ["Component", "StyledComponent", "Container"];
 
 export const messageId = "noDisplayName";
 
@@ -192,8 +187,9 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
       },
       "Program:exit"() {
         componentNodeMap.forEach((info, key) => {
-          const checkNameArray =
+          const componentNames =
             context.options.length > 0 ? context.options[0] : DEFAULT_CHECK_COMPONENT_NAME;
+          const checkNameArray = componentNames.concat(DEFAULT_EXPORTED_CLASS_NAME);
           if (checkNameArray.includes(key) && info.exported && !info.hasDisplayName) {
             context.report({
               node: info.node,
