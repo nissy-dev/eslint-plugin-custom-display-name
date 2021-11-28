@@ -76,6 +76,20 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
             }
           }
         }
+
+        // React.memoの構文にも対応
+        if (isIdentifier(id) && isCallExpression(init)) {
+          const { callee } = init;
+          if (
+            isMemberExpression(callee) &&
+            isIdentifier(callee.object) &&
+            isIdentifier(callee.property) &&
+            callee.object.name === "React" &&
+            callee.property.name === "memo"
+          ) {
+            componentNodeMap.set(id.name, { node: node, exported: false, hasDisplayName: false });
+          }
+        }
       },
       FunctionDeclaration(node) {
         const { id, body } = node;
@@ -129,7 +143,7 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
 
         if (isFunctionExpression(declaration) && isIdentifier(declaration.id)) {
           const info = componentNodeMap.get(declaration.id.name);
-          if (info) {
+          if (info !== undefined) {
             componentNodeMap.set(declaration.id.name, { ...info, exported: true });
           }
         }
@@ -139,47 +153,45 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
             ? declaration.id.name
             : DEFAULT_EXPORTED_CLASS_NAME;
           const info = componentNodeMap.get(name);
-          if (info) {
+          if (info !== undefined) {
             componentNodeMap.set(name, { ...info, exported: true });
           }
         }
       },
       "ExportNamedDeclaration:exit"(node: TSESTree.ExportNamedDeclaration) {
-        if (
-          isVariableDeclaration(node.declaration) &&
-          isIdentifier(node.declaration.declarations[0].id)
-        ) {
-          const name = node.declaration.declarations[0].id.name;
+        const { declaration, specifiers } = node;
+        if (isVariableDeclaration(declaration) && isIdentifier(declaration.declarations[0].id)) {
+          const name = declaration.declarations[0].id.name;
           const info = componentNodeMap.get(name);
-          if (info) {
+          if (info !== undefined) {
             componentNodeMap.set(name, { ...info, exported: true });
           }
         }
 
-        if (isFunctionDeclaration(node.declaration) && isIdentifier(node.declaration.id)) {
-          const name = node.declaration.id.name;
+        if (isFunctionDeclaration(declaration) && isIdentifier(declaration.id)) {
+          const name = declaration.id.name;
           const info = componentNodeMap.get(name);
-          if (info) {
+          if (info !== undefined) {
             componentNodeMap.set(name, { ...info, exported: true });
           }
         }
 
-        if (isClassDeclaration(node.declaration)) {
-          const name = isIdentifier(node.declaration.id)
-            ? node.declaration.id.name
+        if (isClassDeclaration(declaration)) {
+          const name = isIdentifier(declaration.id)
+            ? declaration.id.name
             : DEFAULT_EXPORTED_CLASS_NAME;
           const info = componentNodeMap.get(name);
-          if (info) {
+          if (info !== undefined) {
             componentNodeMap.set(name, { ...info, exported: true });
           }
         }
 
-        node.specifiers.forEach((specifier) => {
+        specifiers.forEach((specifier) => {
           const { local } = specifier;
           if (isIdentifier(local)) {
             const name = local.name;
             const info = componentNodeMap.get(name);
-            if (info) {
+            if (info !== undefined) {
               componentNodeMap.set(name, { ...info, exported: true });
             }
           }
@@ -188,9 +200,13 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
       "Program:exit"() {
         const componentNames =
           context.options.length > 0 ? context.options[0] : DEFAULT_CHECK_COMPONENT_NAME;
-        const checkNameArray = componentNames.concat(DEFAULT_EXPORTED_CLASS_NAME);
-        componentNodeMap.forEach((info, key) => {
-          if (checkNameArray.includes(key) && info.exported && !info.hasDisplayName) {
+        const checkedComponentNames = componentNames.concat(DEFAULT_EXPORTED_CLASS_NAME);
+        componentNodeMap.forEach((info, componentName) => {
+          if (
+            checkedComponentNames.includes(componentName) &&
+            info.exported &&
+            !info.hasDisplayName
+          ) {
             context.report({
               node: info.node,
               messageId,
