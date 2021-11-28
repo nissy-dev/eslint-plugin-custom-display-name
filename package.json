@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-custom-display-name",
   "description": "Eslint plugin that provides custom rules about `displayName` for React components.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "files": [
     "dist",
