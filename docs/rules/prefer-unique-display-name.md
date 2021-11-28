@@ -12,7 +12,7 @@ It doesn't make sense if the component's variable name and `displayName` are the
 const Component = () => {
   return <div>Anonymous Component</div>;
 };
-Component.displayName = "UniqueComponent";
+Component.displayName = "UniqueName";
 ```
 
 👎 Examples of **incorrect** code for this rule:

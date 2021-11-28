@@ -163,6 +163,14 @@ describe("Test for display-name-only-exported-component", () => {
           export { StyledComponent }
         `,
       },
+      {
+        code: `
+          const UniqueComponent = () => {
+            return <div>Anonymous Component</div>;
+          }
+          export default UniqueComponent
+        `,
+      },
     ],
     invalid: [
       {
@@ -255,14 +263,16 @@ describe("Test for display-name-only-exported-component", () => {
       },
       {
         code: `
-          const ComponentA = () => {
+          const Component = () => {
             return <div>Anonymous Component</div>;
           }
-          const ComponentB = () => {
-            return <div>Anonymous Component</div>;
+          const StyledComponent = styled(Component)\`
+            display: flex;
+          \`;
+          const Container = () => {
+            return <StyledComponent />
           }
-          ComponentB.displayName = 'UniqueStyledComponent';
-          export { ComponentA }
+          export { Container }
         `,
         errors: [{ messageId }],
       },
@@ -285,6 +295,16 @@ describe("Test for display-name-only-exported-component", () => {
           \`;
           export { StyledComponent }
         `,
+        errors: [{ messageId }],
+      },
+      {
+        code: `
+          const UniqueComponent = () => {
+            return <div>Anonymous Component</div>;
+          }
+          export default UniqueComponent
+        `,
+        options: [["UniqueComponent"]],
         errors: [{ messageId }],
       },
     ],

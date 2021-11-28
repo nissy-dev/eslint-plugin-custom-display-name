@@ -20,11 +20,18 @@ type ComponentNodeInfo = {
   hasDisplayName: boolean;
 };
 
-const AnnonymousDefaultExportedClassName = "Annonymous-Default-Exported-Class";
+const DEFAULT_EXPORTED_CLASS_NAME = "Annonymous-Default-Exported-Class";
+
+const DEFAULT_CHECK_COMPONENT_NAME = [
+  DEFAULT_EXPORTED_CLASS_NAME,
+  "Component",
+  "StyledComponent",
+  "Container",
+];
 
 export const messageId = "noDisplayName";
 
-export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messageId, []> = {
+export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messageId, string[][]> = {
   meta: {
     docs: {
       description: "Exported Component requires displayName.",
@@ -35,7 +42,14 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
       noDisplayName: "Exported Component is missing display name.",
     },
     type: "suggestion",
-    schema: [],
+    schema: [
+      {
+        type: "array",
+        items: {
+          type: "string",
+        },
+      },
+    ],
   },
   create: (context) => {
     const componentNodeMap: Map<string, ComponentNodeInfo> = new Map();
@@ -85,7 +99,7 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
             isFunctionExpression(bodyNode.value) &&
             isComponentVariable(bodyNode.value.body)
           ) {
-            const name = isIdentifier(id) ? id.name : AnnonymousDefaultExportedClassName;
+            const name = isIdentifier(id) ? id.name : DEFAULT_EXPORTED_CLASS_NAME;
             componentNodeMap.set(name, {
               node: node,
               exported: false,
@@ -128,7 +142,7 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
         if (isClassDeclaration(declaration)) {
           const name = isIdentifier(declaration.id)
             ? declaration.id.name
-            : AnnonymousDefaultExportedClassName;
+            : DEFAULT_EXPORTED_CLASS_NAME;
           const info = componentNodeMap.get(name);
           if (info) {
             componentNodeMap.set(name, { ...info, exported: true });
@@ -158,7 +172,7 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
         if (isClassDeclaration(node.declaration)) {
           const name = isIdentifier(node.declaration.id)
             ? node.declaration.id.name
-            : AnnonymousDefaultExportedClassName;
+            : DEFAULT_EXPORTED_CLASS_NAME;
           const info = componentNodeMap.get(name);
           if (info) {
             componentNodeMap.set(name, { ...info, exported: true });
@@ -177,8 +191,10 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
         });
       },
       "Program:exit"() {
-        componentNodeMap.forEach((info) => {
-          if (info.exported && !info.hasDisplayName) {
+        componentNodeMap.forEach((info, key) => {
+          const checkNameArray =
+            context.options.length > 0 ? context.options[0] : DEFAULT_CHECK_COMPONENT_NAME;
+          if (checkNameArray.includes(key) && info.exported && !info.hasDisplayName) {
             context.report({
               node: info.node,
               messageId,
