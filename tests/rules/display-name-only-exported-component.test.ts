@@ -171,6 +171,22 @@ describe("Test for display-name-only-exported-component", () => {
           export default UniqueComponent
         `,
       },
+      {
+        code: `
+          export const Component = React.memo(function UniqueComponent () {
+            return <div>Anonymous Component</div>;
+          })
+          Component.displayName = 'UniqueComponent'
+        `,
+      },
+      {
+        code: `
+          export const Component = React.memo(() => {
+            return <div>Anonymous Component</div>;
+          })
+          Component.displayName = 'UniqueComponent'
+        `,
+      },
     ],
     invalid: [
       {
@@ -284,6 +300,21 @@ describe("Test for display-name-only-exported-component", () => {
           const StyledComponent = styled(Component)\`
             display: flex;
           \`;
+          const Container = () => {
+            return <StyledComponent />
+          }
+          export { Component, Container }
+        `,
+        errors: [{ messageId }, { messageId }],
+      },
+      {
+        code: `
+          const Component = () => {
+            return <div>Anonymous Component</div>;
+          }
+          const StyledComponent = styled(Component)\`
+            display: flex;
+          \`;
           export { StyledComponent }
         `,
         errors: [{ messageId }],
@@ -318,6 +349,32 @@ describe("Test for display-name-only-exported-component", () => {
         options: [["UniqueComponent"]],
         errors: [{ messageId }],
       },
+      {
+        code: `
+          export const Component = React.memo(function UniqueComponent () {
+            return <div>Anonymous Component</div>;
+          })
+        `,
+        errors: [{ messageId }],
+      },
+      {
+        code: `
+          export const Component = React.memo(() => {
+            return <div>Anonymous Component</div>;
+          })
+        `,
+        errors: [{ messageId }],
+      },
+      // TODO: corner case
+      // {
+      //   code: `
+      //     const Component = () => {
+      //       return <div>Anonymous Component</div>;
+      //     })
+      //     export default React.memo(Component);
+      //   `,
+      //   errors: [{ messageId }],
+      // },
     ],
   });
 });
