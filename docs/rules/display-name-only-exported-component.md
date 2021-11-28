@@ -1,10 +1,8 @@
-# TODO (custom-display-name/display-name-only-exported-component)
+# Exported Component requires displayName (custom-display-name/display-name-only-exported-component)
 
-TODO: Why this rule is useful.
+This rule prevents components which doesn't set `displayName` from exporting.
 
 ## 📖 Rule Details
-
-TODO: How this rule will report code.
 
 👍 Examples of **correct** code for this rule:
 
