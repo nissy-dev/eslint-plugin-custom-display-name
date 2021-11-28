@@ -186,10 +186,10 @@ export const displayNameOnlyExportedComponent: TSESLint.RuleModule<typeof messag
         });
       },
       "Program:exit"() {
+        const componentNames =
+          context.options.length > 0 ? context.options[0] : DEFAULT_CHECK_COMPONENT_NAME;
+        const checkNameArray = componentNames.concat(DEFAULT_EXPORTED_CLASS_NAME);
         componentNodeMap.forEach((info, key) => {
-          const componentNames =
-            context.options.length > 0 ? context.options[0] : DEFAULT_CHECK_COMPONENT_NAME;
-          const checkNameArray = componentNames.concat(DEFAULT_EXPORTED_CLASS_NAME);
           if (checkNameArray.includes(key) && info.exported && !info.hasDisplayName) {
             context.report({
               node: info.node,
