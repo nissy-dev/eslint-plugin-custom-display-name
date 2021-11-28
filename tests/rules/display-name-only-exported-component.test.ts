@@ -307,6 +307,17 @@ describe("Test for display-name-only-exported-component", () => {
         options: [["UniqueComponent"]],
         errors: [{ messageId }],
       },
+      {
+        code: `
+          export default class extends React.Component {
+            render() {
+              return <div>Anonymous Component</div>;
+            }
+          }
+        `,
+        options: [["UniqueComponent"]],
+        errors: [{ messageId }],
+      },
     ],
   });
 });
