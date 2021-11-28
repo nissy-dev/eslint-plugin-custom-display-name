@@ -11,7 +11,7 @@ import {
   isClassDeclaration,
   isTaggedTemplateExpression,
   isCallExpression,
-} from "../type-predicates";
+} from "../typePredicates";
 import { isComponentVariable } from "../isComponentVariable";
 
 type ComponentNodeInfo = {

@@ -1,9 +1,3 @@
-This is template repository for eslint plugin development with TypeScript.
-
-1. Create new rules using `npm run new-rule`
-
----
-
 # eslint-plugin-custom-display-name
 
 ![release](https://github.com/nissy-dev/eslint-plugin-custom-display-name/actions/workflows/release.yml/badge.svg)
@@ -24,16 +18,18 @@ and add it to your `.eslintrc`.
 {
   "plugins": ["custom-display-name"],
   "rules": {
-    "custom-display-name/example-rule": "error"
+    "custom-display-name/display-name-only-exported-component": "error",
+    "custom-display-name/prefer-unique-display-name": "error"
   }
 }
 ```
 
 ## Rules
 
-| Rule ID                                                          | Description    |
-| :--------------------------------------------------------------- | :------------- |
-| [custom-display-name/example-rule](./docs/rules/example-rule.md) | Bans comments. |
+| Rule ID                                                                                                         | Description                                                     |
+| :-------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| [custom-display-name/display-name-only-exported-component](./docs/rules/isplay-name-only-exported-component.md) | Exported Component requires displayName.                        |
+| [custom-display-name/prefer-unique-display-name](./docs/rules/prefer-unique-display-name.md)                    | displayName should be different from component's variable name. |
 
 ## Contributing
 

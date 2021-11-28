@@ -3,15 +3,15 @@ import { preferUniqueDisplayName } from "./rules/prefer-unique-display-name";
 
 export = {
   rules: {
-    displayNameOnlyExportedComponent,
-    preferUniqueDisplayName,
+    "display-name-only-exported-component": displayNameOnlyExportedComponent,
+    "prefer-unique-display-name": preferUniqueDisplayName,
   },
   configs: {
     all: {
       plugins: ["custom-display-name"],
       rules: {
-        "custom-display-name/display-name-only-exported-component": "error",
-        "custom-display-name/prefer-unique-display-name": "error",
+        "display-name-only-exported-component": "error",
+        "prefer-unique-display-name": "error",
       },
     },
   },

@@ -1,6 +1,6 @@
 import { TSESLint } from "@typescript-eslint/experimental-utils";
 
-import { isMemberExpression, isLiteral, isIdentifier } from "../type-predicates";
+import { isMemberExpression, isLiteral, isIdentifier } from "../typePredicates";
 
 export const messageId = "displayNameShouldBeUnique";
 

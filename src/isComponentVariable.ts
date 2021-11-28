@@ -5,7 +5,7 @@ import {
   isBlockStatement,
   isReturnStatement,
   isConditionalExpression,
-} from "./type-predicates";
+} from "./typePredicates";
 
 export const isComponentVariable = (node: TSESTree.Expression | TSESTree.BlockStatement) => {
   if (isJSXElement(node)) {
