@@ -26,10 +26,10 @@ and add it to your `.eslintrc`.
 
 ## Rules
 
-| Rule ID                                                                                                         | Description                                                     |
-| :-------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- |
-| [custom-display-name/display-name-only-exported-component](./docs/rules/isplay-name-only-exported-component.md) | Exported Component requires displayName.                        |
-| [custom-display-name/prefer-unique-display-name](./docs/rules/prefer-unique-display-name.md)                    | displayName should be different from component's variable name. |
+| Rule ID                                                                                                          | Description                                                     |
+| :--------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| [custom-display-name/display-name-only-exported-component](./docs/rules/display-name-only-exported-component.md) | Exported Component requires displayName.                        |
+| [custom-display-name/prefer-unique-display-name](./docs/rules/prefer-unique-display-name.md)                     | displayName should be different from component's variable name. |
 
 ## Contributing
 
