@@ -1,6 +1,6 @@
 {
-  "name": "eslint-plugin-ts-template",
-  "description": "TODO: write some description",
+  "name": "eslint-plugin-custom-display-name",
+  "description": "Eslint plugin that provides custom rules about `displayName` for React components.",
   "version": "0.0.1",
   "main": "dist/index.js",
   "files": [
@@ -10,9 +10,9 @@
   ],
   "author": "nissy-dev <nd.12021218@gmail.com> (https://github.com/nissy-dev)",
   "bugs": {
-    "url": "https://github.com/nissy-dev/eslint-plugin-ts-template/issues"
+    "url": "https://github.com/nissy-dev/eslint-plugin-custom-display-name/issues"
   },
-  "homepage": "https://github.com/nissy-dev/eslint-plugin-ts-template",
+  "homepage": "https://github.com/nissy-dev/eslint-plugin-custom-display-name",
   "keywords": [
     "eslint",
     "eslint-plugin"
@@ -20,12 +20,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nissy-dev/eslint-plugin-ts-template.git"
+    "url": "git+https://github.com/nissy-dev/eslint-plugin-custom-display-name.git"
   },
   "scripts": {
     "prepare": "git config --local core.hooksPath .githooks",
     "build": "rm -rf dist/** && tsc",
-    "new-rule": "node script/new-rule.mjs",
+    "new-rule": "node scripts/new-rule.mjs",
     "test": "jest",
     "lint": "run-p -l -c --aggregate-output lint:*",
     "lint:tsc": "tsc",
@@ -35,10 +35,12 @@
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write"
   },
+  "dependencies": {
+    "@typescript-eslint/experimental-utils": "^5.3.0"
+  },
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
-    "@typescript-eslint/experimental-utils": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",

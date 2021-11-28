@@ -1,14 +1,17 @@
-import { exampleRule } from "./rules/example-rule";
+import { displayNameOnlyExportedComponent } from "./rules/display-name-only-exported-component";
+import { preferUniqueDisplayName } from "./rules/prefer-unique-display-name";
 
 export = {
   rules: {
-    ruleName: exampleRule,
+    "display-name-only-exported-component": displayNameOnlyExportedComponent,
+    "prefer-unique-display-name": preferUniqueDisplayName,
   },
   configs: {
     all: {
-      plugins: ["ts-template"],
+      plugins: ["custom-display-name"],
       rules: {
-        "ts-template/example-rule": "error",
+        "display-name-only-exported-component": "error",
+        "prefer-unique-display-name": "error",
       },
     },
   },
